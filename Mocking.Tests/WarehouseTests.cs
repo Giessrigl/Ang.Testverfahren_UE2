@@ -139,5 +139,77 @@ namespace Mocking.Tests
             {
             }
         }
+
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("   ")]
+        [DataRow("              ")]
+        [DataRow(null)]
+        public void TakeStock_Returns_ArgumentException_If_Called_With_Invalid_ProductName(string product)
+        {
+            this.TestSetup();
+            try
+            {
+                this.warehouse.TakeStock(product, 50);
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("   ")]
+        [DataRow("              ")]
+        [DataRow(null)]
+        public void CurrentStock_Returns_ArgumentException_If_Called_With_Invalid_ProductName(string product)
+        {
+            this.TestSetup();
+            try
+            {
+                this.warehouse.CurrentStock(product);
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("   ")]
+        [DataRow("              ")]
+        [DataRow(null)]
+        public void AddStock_Returns_ArgumentException_If_Called_With_Invalid_ProductName(string product)
+        {
+            this.TestSetup();
+            try
+            {
+                this.warehouse.AddStock(product, 50);
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("   ")]
+        [DataRow("              ")]
+        [DataRow(null)]
+        public void HasProduct_Returns_ArgumentException_If_Called_With_Invalid_ProductName(string product)
+        {
+            this.TestSetup();
+            try
+            {
+                this.warehouse.AddStock(product, 50);
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+            }
+        }
     }
 }
