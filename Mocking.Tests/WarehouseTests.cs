@@ -121,11 +121,11 @@ namespace Mocking.Tests
         }
 
         [DataTestMethod]
-        [DataRow("egg", 150)]
+        [DataRow("bread", 150)]
         [DataRow("butter", 1)]
         [DataRow("chocolate bar", 1000)]
-        [DataRow("bread", 1001)]
-        [DataRow("toilet paper", 11)]
+        [DataRow("egg", 80)]
+        [DataRow("toilet paper", 1020)]
         [DataRow("waterbottle", 101)]
         public void TakeStock_Returns_InsufficientStockException_If_Called_With_An_Amount_Bigger_Than_Current(string product, int amount)
         {
