@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mocking_Exercise;
 using Mocking_Exercise.Interfaces;
+using System;
 
 namespace Mocking.Tests
 {
+    [TestClass]
     public class OrderTests
     {
         private IWarehouse warehouse;
@@ -21,16 +23,55 @@ namespace Mocking.Tests
         }
 
         [DataTestMethod]
-        [DataRow("egg")]
-        [DataRow("butter")]
-        [DataRow("chocolate bar")]
-        [DataRow("bread")]
-        [DataRow("toilet paper")]
-        [DataRow("waterbottle")]
-        public void Has_Product_With_Existing_Product_Returns_True(string product)
+        [DataRow("egg", 50)]
+        [DataRow("butter", 100)]
+        [DataRow("chocolate bar", 80)]
+        [DataRow("bread", 10)]
+        [DataRow("toilet paper", 1000)]
+        [DataRow("waterbottle", 100)]
+        public void IsFilled_Standard_Output_Returns_False(string product, int amount)
         {
             this.TestSetup();
-            Assert.AreEqual(this.warehouse.HasProduct(product), true);
+            var order = new Order(product, amount);
+            Assert.AreEqual(order.IsFilled, false);
+        }
+
+        [DataTestMethod]
+        [DataRow("", 50)]
+        [DataRow("   ", 100)]
+        [DataRow("              ", 0)]
+        [DataRow(null, 1000)]
+        public void Order_Throws_ArgumentException_If_Called_With_Invalid_ProductName(string product, int amount)
+        {
+            this.TestSetup();
+            try
+            {
+                var order = new Order(product, amount);
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow("egg", 0)]
+        [DataRow("butter", -10)]
+        [DataRow("chocolate bar", -1)]
+        [DataRow("bread", -1000)]
+        public void Order_Throws_ArgumentException_If_Called_With_Amount_Less_Than_1(string product, int amount)
+        {
+            this.TestSetup();
+            try
+            {
+                var order = new Order(product, amount);
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+
+            }
         }
     }
 }
