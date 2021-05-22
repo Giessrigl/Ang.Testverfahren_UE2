@@ -10,6 +10,11 @@ namespace Mocking_Exercise
     {
         private ConcurrentDictionary<string, int> products;
 
+        public StandardWarehouse()
+        {
+            this.products = new ConcurrentDictionary<string, int>();
+        }
+
         public void AddStock(string product, int amount)
         {
             if (string.IsNullOrWhiteSpace(product))
@@ -57,7 +62,7 @@ namespace Mocking_Exercise
                 throw new NoSuchProductException($"There is no product with name: {product}.", product);
 
             this.products.TryGetValue(product, out int currentStock);
-            if (currentStock < amount)
+            if (amount > currentStock)
                 throw new InsufficientStockException($"There are only {currentStock} items of {product} available but ordered were {amount}.", product);
 
             amount = currentStock -= amount;
