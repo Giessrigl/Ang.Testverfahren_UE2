@@ -89,7 +89,7 @@ namespace Mocking.Tests
         [DataRow("bread", 50)]
         [DataRow("toilet paper", 2)]
         [DataRow("waterbottle", 1)]
-        public void Fill_Returns_OrderAlreadyFilled_If_Fill_Is_Called_After_Being_Already_Filled(string product, int amount)
+        public void Fill_Returns_OrderAlreadyFilledException_If_Fill_Is_Called_After_Being_Already_Filled(string product, int amount)
         {
             this.TestSetup();
             var order = new Order(product, amount);
@@ -124,5 +124,29 @@ namespace Mocking.Tests
 
             Assert.AreEqual(order.IsFilled, true);
         }
+
+        [DataTestMethod]
+        // amount too big
+        [DataRow("egg", 50)]
+        [DataRow("chocolate bar", 501)]
+        [DataRow("bread", 150)]
+        [DataRow("toilet paper", 1500)]
+        [DataRow("waterbottle", 102)]
+        // product not available
+        [DataRow("beans", 100)]
+        [DataRow("meat", 50)]
+        [DataRow("pizza", 20)]
+        [DataRow("cheese", 30)]
+        [DataRow("pringles", 200)]
+        [DataRow("red bull", 1000)]
+        public void IsFilled_Returns_False_If_Order_Could_Not_Be_Filled(string product, int amount)
+        {
+            this.TestSetup();
+            var order = new Order(product, amount);
+            order.Fill(this.warehouse);
+
+            Assert.AreEqual(order.IsFilled, false);
+        }
+
     }
 }
