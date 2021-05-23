@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mocking_Exercise;
+using Mocking_Exercise.Exceptions;
 using Mocking_Exercise.Interfaces;
 using System;
 
@@ -53,6 +54,10 @@ namespace Mocking.Tests
             {
 
             }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [DataTestMethod]
@@ -72,6 +77,52 @@ namespace Mocking.Tests
             {
 
             }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow("egg", 10)]
+        [DataRow("chocolate bar", 499)]
+        [DataRow("bread", 50)]
+        [DataRow("toilet paper", 2)]
+        [DataRow("waterbottle", 1)]
+        public void Fill_Returns_OrderAlreadyFilled_If_Fill_Is_Called_After_Being_Already_Filled(string product, int amount)
+        {
+            this.TestSetup();
+            var order = new Order(product, amount);
+            order.Fill(this.warehouse);
+
+            try
+            {
+                order.Fill(this.warehouse);
+                Assert.Fail();
+            }
+            catch(OrderAlreadyFilledException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow("egg", 10)]
+        [DataRow("chocolate bar", 499)]
+        [DataRow("bread", 50)]
+        [DataRow("toilet paper", 2)]
+        [DataRow("waterbottle", 1)]
+        public void IsFilled_Returns_True_After_Order_Is_Being_Filled(string product, int amount)
+        {
+            this.TestSetup();
+            var order = new Order(product, amount);
+            order.Fill(this.warehouse);
+
+            Assert.AreEqual(order.IsFilled, true);
         }
     }
 }

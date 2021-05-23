@@ -46,9 +46,10 @@ namespace Mocking_Exercise
                 throw new OrderAlreadyFilledException();
 
             if (CanFillOrder(warehouse))
+            {
                 warehouse.TakeStock(this.product, this.amount);
-
-            this.IsFilled = true;
+                this.IsFilled = true;
+            }
         }
     }
 }

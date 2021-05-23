@@ -98,6 +98,10 @@ namespace Mocking.Tests
             catch (NoSuchProductException)
             {
             }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [DataTestMethod]
@@ -117,6 +121,10 @@ namespace Mocking.Tests
             }
             catch (NoSuchProductException)
             {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
             }
         }
 
@@ -138,6 +146,10 @@ namespace Mocking.Tests
             catch (InsufficientStockException)
             {
             }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [DataTestMethod]
@@ -155,6 +167,10 @@ namespace Mocking.Tests
             }
             catch (ArgumentException)
             {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
             }
         }
 
@@ -174,6 +190,10 @@ namespace Mocking.Tests
             catch (ArgumentException)
             {
             }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [DataTestMethod]
@@ -192,6 +212,10 @@ namespace Mocking.Tests
             catch (ArgumentException)
             {
             }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
         [DataTestMethod]
@@ -209,6 +233,10 @@ namespace Mocking.Tests
             }
             catch (ArgumentException)
             {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
             }
         }
     }
