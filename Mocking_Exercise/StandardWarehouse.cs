@@ -2,7 +2,6 @@
 using Mocking_Exercise.Interfaces;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 namespace Mocking_Exercise
 {
@@ -24,6 +23,7 @@ namespace Mocking_Exercise
             {
                 amount += currentAmount;
                 this.products.TryUpdate(product, amount, currentAmount);
+                return;
             }
 
             this.products.TryAdd(product, amount);
@@ -62,6 +62,7 @@ namespace Mocking_Exercise
                 throw new NoSuchProductException($"There is no product with name: {product}.", product);
 
             this.products.TryGetValue(product, out int currentStock);
+
             if (amount > currentStock)
                 throw new InsufficientStockException($"There are only {currentStock} items of {product} available but ordered were {amount}.", product);
 

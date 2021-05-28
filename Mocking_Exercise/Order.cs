@@ -31,25 +31,31 @@ namespace Mocking_Exercise
 
         public bool CanFillOrder(IWarehouse warehouse)
         {
-            if (warehouse.HasProduct(this.product))
-            {
-                if (warehouse.CurrentStock(product) >= this.amount)
-                    return true;
-            }
+            if (warehouse == null)
+                throw new ArgumentNullException(nameof(warehouse));
 
-            return false;
+            if (!warehouse.HasProduct(this.product))
+                return false;
+
+            if (warehouse.CurrentStock(product) < this.amount)
+                return false;
+
+            return true;
         }
 
         public void Fill(IWarehouse warehouse)
         {
+            if (warehouse == null)
+                throw new ArgumentNullException(nameof(warehouse));
+
             if (this.IsFilled)
                 throw new OrderAlreadyFilledException();
 
-            if (CanFillOrder(warehouse))
-            {
-                warehouse.TakeStock(this.product, this.amount);
-                this.IsFilled = true;
-            }
+            if (!this.CanFillOrder(warehouse))
+                return;
+
+            warehouse.TakeStock(this.product, this.amount);
+            this.IsFilled = true;
         }
     }
 }
