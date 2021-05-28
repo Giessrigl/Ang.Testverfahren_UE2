@@ -1,28 +1,73 @@
-﻿using Mocking_Exercise.Interfaces;
+﻿using Mocking_Exercise.Exceptions;
+using Mocking_Exercise.Interfaces;
 using System;
+using System.Collections.Concurrent;
 
 namespace Mocking_Exercise
 {
     public class StandardWarehouse : IWarehouse
     {
+        private ConcurrentDictionary<string, int> products;
+
+        public StandardWarehouse()
+        {
+            this.products = new ConcurrentDictionary<string, int>();
+        }
+
         public void AddStock(string product, int amount)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(product))
+                throw new ArgumentNullException();
+
+            if (this.products.TryGetValue(product, out int currentAmount))
+            {
+                amount += currentAmount;
+                this.products.TryUpdate(product, amount, currentAmount);
+                return;
+            }
+
+            this.products.TryAdd(product, amount);
         }
 
         public int CurrentStock(string product)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(product))
+                throw new ArgumentNullException();
+
+            if (!HasProduct(product))
+                throw new NoSuchProductException($"There is no product with name: {product}.", product);
+
+            if (this.products.TryGetValue(product, out int currentAmount))
+            {
+                return currentAmount;
+            }
+
+            return 0;
         }
 
         public bool HasProduct(string product)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(product))
+                throw new ArgumentNullException();
+
+            return this.products.ContainsKey(product);
         }
 
         public void TakeStock(string product, int amount)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(product))
+                throw new ArgumentNullException();
+
+            if (!HasProduct(product))
+                throw new NoSuchProductException($"There is no product with name: {product}.", product);
+
+            this.products.TryGetValue(product, out int currentStock);
+
+            if (amount > currentStock)
+                throw new InsufficientStockException($"There are only {currentStock} items of {product} available but ordered were {amount}.", product);
+
+            amount = currentStock -= amount;
+            this.products.TryUpdate(product, amount, currentStock);
         }
     }
 }

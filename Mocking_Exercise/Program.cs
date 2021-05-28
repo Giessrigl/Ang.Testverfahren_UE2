@@ -1,12 +1,20 @@
-﻿using System;
+﻿using Mocking_Exercise.Interfaces;
+using System;
 
 namespace Mocking_Exercise
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IWarehouse warehouse = new StandardWarehouse();
+            warehouse.AddStock("bread", 100);
+            warehouse.AddStock("butter", 0);
+            warehouse.AddStock("chocolate bar", 500);
+            warehouse.AddStock("egg", 10);
+            warehouse.AddStock("toilet paper", 1000);
+            warehouse.AddStock("waterbottle", 100);
+
         }
     }
 }
